@@ -10,6 +10,7 @@ import {
   Body,
   Query,
   UseGuards,
+  UseInterceptors
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Request, Response } from 'express';
@@ -17,8 +18,10 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/createUser.dto';
 import { ValidateuserPipe } from './pipes/validateuser/validateuser.pipe';
 import { AuthGuard } from './guard/auth/auth.guard';
+import { LoggerInterceptor } from './logger/logger.interceptor';
 
 @Controller('/users')
+@UseInterceptors(LoggerInterceptor)
 @ApiTags('Users')
 @ApiResponse({ status: 200, description: 'Success' })
 @ApiResponse({ status: 401, description: 'Unauthorized' })

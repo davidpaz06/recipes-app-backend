@@ -11,7 +11,7 @@ import { PrismaService } from 'prisma/prisma.service';
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    // consumer.apply(LoggerMiddleware).forRoutes(UserController);
-    // consumer.apply(AuthMiddleware).forRoutes(UserController);
+    consumer.apply(LoggerMiddleware).forRoutes(UserController);
+    consumer.apply(AuthMiddleware).forRoutes(UserController);
   }
 }
