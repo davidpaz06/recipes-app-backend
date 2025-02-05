@@ -17,6 +17,13 @@ async function bootstrap() {
   app.enableCors({
     // origin: 'about:blank',
   });
-  await app.listen(process.env.PORT ?? 3000);
+  const port = process.env.PORT ?? 3000;
+  await app.listen(port);
+  console.log(`Application is running on: ${await app.getUrl()}`);
+  process.on('SIGINT', async () => {
+    console.log('SIGINT signal received: closing HTTP server');
+    await app.close();
+    process.exit(0);
+  });
 }
 bootstrap();

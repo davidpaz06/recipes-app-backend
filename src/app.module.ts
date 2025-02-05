@@ -4,12 +4,12 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PrismaService } from 'prisma/prisma.service';
-import { Abc } from './abc/abc';
-import { AbcGateway } from './abc/abc.gateway';
+// import { Abc } from './abc/abc';
+// import { AbcGateway } from './abc/abc.gateway';
 
 @Module({
   imports: [RecipeModule, UserModule, AuthModule, PaymentsModule],
   controllers: [],
-  providers: [PrismaService, Abc, AbcGateway],
+  providers: [PrismaService],
 })
 export class AppModule {}
