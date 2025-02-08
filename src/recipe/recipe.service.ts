@@ -32,6 +32,10 @@ export class RecipeService {
         },
       },
     });
-    return newRecipe;
+    const res = {
+      message: 'Recipe created successfully',
+      recipe: newRecipe,
+    };
+    return res;
   }
 }
