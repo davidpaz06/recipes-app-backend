@@ -1,13 +1,28 @@
-import { IsString, IsArray, MinLength, ArrayMinSize } from 'class-validator';
+import {
+  IsString,
+  IsInt,
+  IsArray,
+  MinLength,
+  ArrayMinSize,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateRecipeDto {
   @IsString()
   @MinLength(3)
   title: string;
 
-  @IsArray()
-  @ArrayMinSize(1)
-  ingredients: object[];
+  @IsString()
+  description: string;
+
+  @IsString()
+  ingredients: string;
+
+  @IsInt()
+  prepTime: number;
+
+  @IsInt()
+  createdById: number;
 
   id: number;
 }

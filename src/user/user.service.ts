@@ -54,7 +54,10 @@ export class UserService {
       throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
     }
 
-    return res.status(HttpStatus.OK).json({ message: 'Login successful' });
+    return {
+      status: res.status(HttpStatus.OK).json({ message: 'Login successful' }),
+      user: user,
+    };
   }
 
   updateUser() {

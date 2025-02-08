@@ -18,10 +18,9 @@ async function bootstrap() {
     // origin: 'about:blank',
   });
   const port = process.env.PORT ?? 3000;
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
   console.log(`Application is running on: ${await app.getUrl()}`);
   process.on('SIGINT', async () => {
-    console.log('SIGINT signal received: closing HTTP server');
     await app.close();
     process.exit(0);
   });

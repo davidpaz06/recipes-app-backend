@@ -19,7 +19,6 @@ export class RecipeController {
 
   @Get()
   getRecipes(@Query() query: any) {
-    console.log(query);
     return this.recipeService.getRecipes();
   }
 

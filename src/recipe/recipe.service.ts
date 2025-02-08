@@ -1,27 +1,37 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CreateRecipeDto } from './dto/createRecipe.dto';
 
 @Injectable()
 export class RecipeService {
-  private recipes: { id: number; [key: string]: any }[] = [];
+  constructor(private prisma: PrismaService) {}
 
-  getRecipes() {
-    return this.recipes;
+  async getRecipes() {
+    const recipes = await this.prisma.recipe.findMany();
+    return recipes;
   }
 
   getRecipe(id: number) {
-    const recipeFound = this.recipes.find((recipe) => recipe.id === id);
-
-    if (!recipeFound) {
-      throw new NotFoundException('Recipe not found');
-    }
+    const recipeFound = this.prisma.recipe.findUnique({
+      where: { id },
+    });
 
     return recipeFound;
   }
 
-  createRecipe(recipe: CreateRecipeDto) {
-    const newRecipe = { ...recipe, id: this.recipes.length + 1 };
-    this.recipes.push(newRecipe);
+  async createRecipe(recipe: CreateRecipeDto) {
+    const { title, description, ingredients, prepTime, createdById } = recipe;
+    const newRecipe = await this.prisma.recipe.create({
+      data: {
+        title,
+        description,
+        ingredients,
+        prepTime,
+        createdById: {
+          connect: { userId: createdById },
+        },
+      },
+    });
     return newRecipe;
   }
 }
