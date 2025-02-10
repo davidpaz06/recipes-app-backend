@@ -1,14 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
-import { AuthService } from 'src/auth/auth.service';
 import { PrismaService } from 'prisma/prisma.service';
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { AuthService } from 'src/auth/auth.service';
 import * as argon2 from 'argon2';
-import { access } from 'fs';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private auth: AuthService,
+  ) {}
 
   getUsers() {
     return this.prisma.user.findMany();
@@ -16,8 +17,13 @@ export class UserService {
 
   async createUser(user) {
     try {
-      const hashedPassword = await argon2.hash(user.password);
-
+      const hashedPassword = await argon2.hash(user.password, {
+        // Tipo de algoritmo (argon2i, argon2d, argon2id)
+        type: argon2.argon2id,
+        memoryCost: 2 ** 10, // Memoria utilizada en KiB (4096 KiB = 4 MiB)
+        timeCost: 2, // Número de iteraciones
+        parallelism: 2, // Grado de paralelismo
+      });
       const newUser = await this.prisma.user.create({
         data: {
           ...user,
@@ -36,10 +42,10 @@ export class UserService {
     }
   }
 
-  async login(req, res) {
+  async login(req) {
     const user = await this.prisma.user.findUnique({
       where: {
-        username: req.body.username,
+        username: req.username,
       },
     });
 
@@ -47,19 +53,20 @@ export class UserService {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const isPasswordValid = await argon2.verify(
-      user.password,
-      req.body.password,
-    );
+    const isPasswordValid = await argon2.verify(user.password, req.password);
 
     if (!isPasswordValid) {
       throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
     }
 
+    const tokens = await this.auth.tokenize(user);
+
     return {
-      status: res.status(HttpStatus.OK).json({ message: 'Login successful' }),
-      user: user.username,
-      sub: user.userId,
+      ...tokens,
+      decoded: {
+        access_token: this.auth.decodeToken(tokens.access_token),
+        refresh_token: this.auth.decodeToken(tokens.refresh_token),
+      },
     };
   }
 

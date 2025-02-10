@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  async login(user: any) {
+  async tokenize(user: any) {
     const payload = { username: user.username, sub: user.userId };
     return {
       access_token: this.jwtService.sign(payload),
@@ -13,5 +13,9 @@ export class AuthService {
         expiresIn: '7d',
       }),
     };
+  }
+
+  decodeToken(token: string) {
+    return this.jwtService.decode(token);
   }
 }

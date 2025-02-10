@@ -10,19 +10,19 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const request = context.switchToHttp().getRequest();
-    const { method, url, body } = request;
+    const req = context.switchToHttp().getRequest();
+    const { method, url, body } = req;
 
     console.log(`Incoming Request: ${method} ${url}`);
     console.log('Request Body:', body);
 
     const now = Date.now();
     return next.handle().pipe(
-      tap(() => {
-        const response = context.switchToHttp().getResponse();
-        const { statusCode } = response;
-        console.log(`Outgoing Response: ${statusCode} ${url}`);
-        console.log(`Request-Response Time: ${Date.now() - now}ms`);
+      tap((data) => {
+        const res = context.switchToHttp().getResponse();
+        const { statusCode } = res;
+        console.log(`Outgoing Response: ${JSON.stringify(data)}`);
+        console.log(`Request-Response Time: ${Date.now() - now}ms\n`);
       }),
     );
   }

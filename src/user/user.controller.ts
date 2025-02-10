@@ -11,6 +11,8 @@ import {
   Query,
   UseGuards,
   UseInterceptors,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Request, Response } from 'express';
@@ -40,8 +42,9 @@ export class UserController {
   }
 
   @Post('login')
-  login(@Req() req: Request, @Res() res: Response) {
-    return this.userService.login(req, res);
+  login(@Body() user: CreateUserDto) {
+    const res = this.userService.login(user);
+    return res;
   }
 
   @Get('greet')

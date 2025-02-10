@@ -4,8 +4,10 @@ import { UserService } from './user.service';
 import { LoggerMiddleware } from './logger/logger.middleware';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { PrismaService } from 'prisma/prisma.service';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
+  imports: [AuthModule],
   controllers: [UserController],
   providers: [UserService, PrismaService],
 })
