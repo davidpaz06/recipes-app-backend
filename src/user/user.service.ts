@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
+import { AuthService } from 'src/auth/auth.service';
 import { PrismaService } from 'prisma/prisma.service';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as argon2 from 'argon2';
+import { access } from 'fs';
 
 @Injectable()
 export class UserService {
@@ -56,7 +58,8 @@ export class UserService {
 
     return {
       status: res.status(HttpStatus.OK).json({ message: 'Login successful' }),
-      user: user,
+      user: user.username,
+      sub: user.userId,
     };
   }
 

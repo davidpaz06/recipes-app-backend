@@ -17,7 +17,7 @@ import { Request, Response } from 'express';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/createUser.dto';
 import { ValidateuserPipe } from './pipes/validateuser/validateuser.pipe';
-import { AuthGuard } from './guard/auth/auth.guard';
+import { AuthGuard } from './guard/auth.guard';
 import { LoggerInterceptor } from './logger/logger.interceptor';
 
 @Controller('/users')

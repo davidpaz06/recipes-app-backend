@@ -26,6 +26,7 @@ model Recipe {
   ingredients String
   prepTime Int 
   createdBy Int 
+  imageUrl String
 
   createdById User @relation(fields: [createdBy], references: [userId]) 
 

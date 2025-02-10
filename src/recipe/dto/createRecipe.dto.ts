@@ -24,5 +24,8 @@ export class CreateRecipeDto {
   @IsInt()
   createdById: number;
 
+  @IsString()
+  imageUrl: string;
+
   id: number;
 }
