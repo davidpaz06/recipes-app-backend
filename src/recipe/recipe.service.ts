@@ -7,7 +7,9 @@ export class RecipeService {
   constructor(private prisma: PrismaService) {}
 
   async getRecipes() {
-    const recipes = await this.prisma.recipe.findMany();
+    const recipes = await this.prisma.recipe.findMany({
+      orderBy: [{ createdAt: 'desc' }, { id: 'asc' }],
+    });
     return recipes;
   }
 
@@ -20,8 +22,15 @@ export class RecipeService {
   }
 
   async createRecipe(recipe: CreateRecipeDto) {
-    const { title, description, ingredients, prepTime, createdById, imageUrl } =
-      recipe;
+    const {
+      title,
+      description,
+      ingredients,
+      prepTime,
+      createdById,
+      createdAt,
+      imageUrl,
+    } = recipe;
     const newRecipe = await this.prisma.recipe.create({
       data: {
         title,
@@ -31,7 +40,8 @@ export class RecipeService {
         createdById: {
           connect: { userId: createdById },
         },
-        imageUrl: imageUrl ?? 'default-image-url.jpg', // Proveer un valor por defecto si imageUrl es undefined
+        createdAt: new Date(),
+        imageUrl: imageUrl ?? 'default-image-url.jpg',
       },
     });
     const res = {

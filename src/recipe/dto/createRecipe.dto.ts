@@ -4,6 +4,7 @@ import {
   IsArray,
   MinLength,
   ArrayMinSize,
+  IsDate,
   IsNumber,
   IsOptional,
 } from 'class-validator';
@@ -24,6 +25,9 @@ export class CreateRecipeDto {
 
   @IsInt()
   createdById: number;
+
+  @IsDate()
+  createdAt: Date;
 
   @IsString()
   @IsOptional()
