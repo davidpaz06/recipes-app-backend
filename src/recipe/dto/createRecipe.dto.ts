@@ -5,6 +5,7 @@ import {
   MinLength,
   ArrayMinSize,
   IsNumber,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateRecipeDto {
@@ -25,7 +26,6 @@ export class CreateRecipeDto {
   createdById: number;
 
   @IsString()
-  imageUrl: string;
-
-  id: number;
+  @IsOptional()
+  imageUrl?: any;
 }

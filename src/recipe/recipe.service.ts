@@ -31,7 +31,7 @@ export class RecipeService {
         createdById: {
           connect: { userId: createdById },
         },
-        imageUrl,
+        imageUrl: imageUrl ?? 'default-image-url.jpg', // Proveer un valor por defecto si imageUrl es undefined
       },
     });
     const res = {

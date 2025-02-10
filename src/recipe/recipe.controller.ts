@@ -8,12 +8,15 @@ import {
   Post,
   Query,
   UsePipes,
+  UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
 import { RecipeService } from './recipe.service';
 import { CreateRecipeDto } from './dto/createRecipe.dto';
+import { LoggerInterceptor } from 'src/user/logger/logger.interceptor';
 
 @Controller('/recipes')
+@UseInterceptors(LoggerInterceptor)
 export class RecipeController {
   constructor(private recipeService: RecipeService) {}
 

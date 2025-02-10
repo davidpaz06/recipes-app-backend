@@ -63,10 +63,6 @@ export class UserService {
 
     return {
       ...tokens,
-      decoded: {
-        access_token: this.auth.decodeToken(tokens.access_token),
-        refresh_token: this.auth.decodeToken(tokens.refresh_token),
-      },
     };
   }
 

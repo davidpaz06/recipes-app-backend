@@ -10,7 +10,7 @@ import { Request, Response } from 'express';
 export class AuthMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: () => void) {
     if (req.headers['authorization'] !== 'true') {
-      // throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
     next();
   }
