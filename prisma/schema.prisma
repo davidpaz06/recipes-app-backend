@@ -45,12 +45,11 @@ model Steps{
 }
 
 model Group {
-  id Int @id @default(autoincrement())
-  name String
-  userId Int
+  id          Int    @id @default(autoincrement())
+  name        String
+  groupBy     Int    
 
-  user User @relation(fields: [userId], references: [userId])
-
+  groupById   User   @relation(fields: [groupBy], references: [userId])
   groupRecipes Group_Recipe[]
 }
 

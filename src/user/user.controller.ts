@@ -60,18 +60,19 @@ export class UserController {
     return `Hello ${query.name}, you are ${query.age} years old and your status is ${query.status}`;
   }
 
-  @Put()
-  updateUser() {
-    return this.userService.updateUser();
+  @Patch()
+  updateUser(@Body() body: { oldUsername: string; newUsername: string }) {
+    const { oldUsername, newUsername } = body;
+
+    const res = this.userService.updateUser(oldUsername, newUsername);
+    return {
+      status: HttpStatus.OK,
+      message: `New username: ${newUsername}`,
+    };
   }
 
   @Delete()
   deleteUser() {
     return this.userService.deleteUser();
-  }
-
-  @Patch()
-  patchUser() {
-    return this.userService.patchUser();
   }
 }

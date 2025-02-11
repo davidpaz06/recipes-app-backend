@@ -22,15 +22,8 @@ export class RecipeService {
   }
 
   async createRecipe(recipe: CreateRecipeDto) {
-    const {
-      title,
-      description,
-      ingredients,
-      prepTime,
-      createdById,
-      createdAt,
-      imageUrl,
-    } = recipe;
+    const { title, description, ingredients, prepTime, createdById, imageUrl } =
+      recipe;
     const newRecipe = await this.prisma.recipe.create({
       data: {
         title,

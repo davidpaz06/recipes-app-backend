@@ -6,9 +6,10 @@ import { PaymentsModule } from './payments/payments.module';
 import { PrismaService } from 'prisma/prisma.service';
 // import { Abc } from './abc/abc';
 // import { AbcGateway } from './abc/abc.gateway';
+import { GroupModule } from './group/group.module';
 
 @Module({
-  imports: [RecipeModule, UserModule, AuthModule, PaymentsModule],
+  imports: [RecipeModule, UserModule, AuthModule, PaymentsModule, GroupModule],
   controllers: [],
   providers: [PrismaService],
 })

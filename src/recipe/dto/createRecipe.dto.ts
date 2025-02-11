@@ -26,9 +26,6 @@ export class CreateRecipeDto {
   @IsInt()
   createdById: number;
 
-  @IsDate()
-  createdAt: Date;
-
   @IsString()
   @IsOptional()
   imageUrl?: any;

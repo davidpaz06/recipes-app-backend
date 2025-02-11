@@ -66,15 +66,16 @@ export class UserService {
     };
   }
 
-  updateUser() {
-    return 'User updated';
+  async updateUser(oldUsername: string, newUsername: string) {
+    const updatedUser = await this.prisma.user.update({
+      where: { username: oldUsername },
+      data: {
+        username: newUsername,
+      },
+    });
   }
 
-  deleteUser() {
+  async deleteUser() {
     return 'User deleted';
-  }
-
-  patchUser() {
-    return 'User patched';
   }
 }
