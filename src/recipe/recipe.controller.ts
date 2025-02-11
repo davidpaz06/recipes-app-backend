@@ -14,13 +14,16 @@ import {
 import { RecipeService } from './recipe.service';
 import { CreateRecipeDto } from './dto/createRecipe.dto';
 import { LoggerInterceptor } from 'src/user/logger/logger.interceptor';
+import { ResponseInterceptor } from 'src/user/interceptors/response/response.interceptor';
 
 @Controller('/recipes')
 @UseInterceptors(LoggerInterceptor)
+@UseInterceptors(ResponseInterceptor)
 export class RecipeController {
   constructor(private recipeService: RecipeService) {}
 
   @Get()
+  @HttpCode(200)
   getRecipes(@Query() query: any) {
     return this.recipeService.getRecipes();
   }

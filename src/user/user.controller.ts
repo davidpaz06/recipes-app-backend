@@ -21,9 +21,12 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { ValidateuserPipe } from './pipes/validateuser/validateuser.pipe';
 import { AuthGuard } from './guard/auth.guard';
 import { LoggerInterceptor } from './logger/logger.interceptor';
+import { ResponseInterceptor } from './interceptors/response/response.interceptor';
 
 @Controller('/users')
 @UseInterceptors(LoggerInterceptor)
+@UseInterceptors(ResponseInterceptor)
+@UseGuards(AuthGuard)
 @ApiTags('Users')
 @ApiResponse({ status: 200, description: 'Success' })
 @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -42,6 +45,7 @@ export class UserController {
   }
 
   @Post('login')
+  @HttpCode(200)
   login(@Body() user: CreateUserDto) {
     const res = this.userService.login(user);
     return res;

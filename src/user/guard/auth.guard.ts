@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate {
     ) {
       // return false;
     }
+    console.log('request.headers', request.headers);
     return true;
   }
 }
