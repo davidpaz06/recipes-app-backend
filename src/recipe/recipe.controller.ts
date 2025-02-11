@@ -18,7 +18,7 @@ import { ResponseInterceptor } from 'src/user/interceptors/response/response.int
 
 @Controller('/recipes')
 @UseInterceptors(LoggerInterceptor)
-@UseInterceptors(ResponseInterceptor)
+// @UseInterceptors(ResponseInterceptor)
 export class RecipeController {
   constructor(private recipeService: RecipeService) {}
 

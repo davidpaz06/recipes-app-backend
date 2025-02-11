@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
@@ -8,11 +8,11 @@ import { JwtStrategy } from './jwt.strategy';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: '123456789', // Cambia esto por una clave secreta segura
+      secret: '123456789',
       signOptions: { expiresIn: '60m' },
     }),
   ],
   providers: [AuthService, JwtStrategy],
-  exports: [AuthService], // Exportar AuthService para que esté disponible en otros módulos
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

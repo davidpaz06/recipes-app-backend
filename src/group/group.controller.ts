@@ -5,20 +5,26 @@ import {
   Post,
   Delete,
   UseInterceptors,
+  UseGuards,
+  Req,
+  Request,
 } from '@nestjs/common';
 import { LoggerInterceptor } from 'src/user/logger/logger.interceptor';
+import { AuthGuard } from 'src/user/guard/auth.guard';
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 
-@Controller('group')
+@Controller('groups')
 @UseInterceptors(LoggerInterceptor)
+@UseGuards(AuthGuard)
 export class GroupController {
   constructor(private groupService: GroupService) {}
 
   @Get()
-  getUserGroups(@Body() body: { user: number }) {
-    const { user } = body;
-    return this.groupService.getUserGroups(user);
+  getUserGroups(@Request() req) {
+    console.log('GET GROUPS ROUTE');
+    const userId = req.user.sub;
+    return this.groupService.getUserGroups(userId);
   }
 
   @Get('recipes')

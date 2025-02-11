@@ -26,7 +26,6 @@ import { ResponseInterceptor } from './interceptors/response/response.intercepto
 @Controller('/users')
 @UseInterceptors(LoggerInterceptor)
 @UseInterceptors(ResponseInterceptor)
-@UseGuards(AuthGuard)
 @ApiTags('Users')
 @ApiResponse({ status: 200, description: 'Success' })
 @ApiResponse({ status: 401, description: 'Unauthorized' })
