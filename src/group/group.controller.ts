@@ -27,9 +27,9 @@ export class GroupController {
     return this.groupService.getUserGroups(userId);
   }
 
-  @Get('recipes')
-  getGroupRecipes(@Body() body: { groupId: number }) {
-    const { groupId } = body;
+  @Get(':id/recipes')
+  getGroupRecipes(@Req() req) {
+    const groupId = parseInt(req.params.id, 10);
     return this.groupService.getGroupRecipes(groupId);
   }
 
