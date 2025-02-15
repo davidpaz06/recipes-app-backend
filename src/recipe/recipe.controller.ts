@@ -33,6 +33,11 @@ export class RecipeController {
     return this.recipeService.getRecipe(id);
   }
 
+  @Get('/user/:id')
+  getUserRecipes(@Param('id', ParseIntPipe) id: number) {
+    return this.recipeService.getUserRecipes(id);
+  }
+
   @Post()
   @HttpCode(201)
   @UsePipes(new ValidationPipe())

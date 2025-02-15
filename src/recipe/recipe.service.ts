@@ -21,6 +21,18 @@ export class RecipeService {
     return recipeFound;
   }
 
+  async getUserRecipes(id: number) {
+    const userRecipes = await this.prisma.recipe.findMany({
+      where: { createdBy: id },
+    });
+
+    if (!userRecipes) {
+      throw new NotFoundException('User has no recipes');
+    }
+
+    return userRecipes;
+  }
+
   async createRecipe(recipe: CreateRecipeDto) {
     const { title, description, ingredients, prepTime, createdById, imageUrl } =
       recipe;
