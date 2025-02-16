@@ -55,4 +55,16 @@ export class RecipeService {
     };
     return res;
   }
+
+  async deleteRecipe(id: number) {
+    const recipe = await this.prisma.recipe.delete({
+      where: { id },
+    });
+
+    if (!recipe) {
+      throw new NotFoundException('Recipe not found');
+    }
+
+    return recipe;
+  }
 }

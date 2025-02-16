@@ -22,7 +22,6 @@ export class GroupController {
 
   @Get()
   getUserGroups(@Request() req) {
-    console.log('GET GROUPS ROUTE');
     const userId = req.user.sub;
     return this.groupService.getUserGroups(userId);
   }

@@ -45,6 +45,12 @@ export class RecipeController {
     return this.recipeService.createRecipe(recipe);
   }
 
+  @Post('/delete/:id')
+  @HttpCode(204)
+  deleteRecipe(@Param('id', ParseIntPipe) id: number) {
+    return this.recipeService.deleteRecipe(id);
+  }
+
   @Get('notfound')
   @HttpCode(404)
   notFound() {
