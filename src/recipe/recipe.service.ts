@@ -22,6 +22,7 @@ export class RecipeService {
   }
 
   async getUserRecipes(id: number) {
+    console.log('userId', id);
     const userRecipes = await this.prisma.recipe.findMany({
       where: { createdBy: id },
     });
@@ -31,6 +32,18 @@ export class RecipeService {
     }
 
     return userRecipes;
+  }
+
+  async getRecipeSteps(id: number) {
+    const recipeSteps = await this.prisma.steps.findMany({
+      where: { recipeId: id },
+    });
+
+    if (!recipeSteps) {
+      throw new NotFoundException('Recipe steps not found');
+    }
+
+    return recipeSteps;
   }
 
   async createRecipe(recipe: CreateRecipeDto) {

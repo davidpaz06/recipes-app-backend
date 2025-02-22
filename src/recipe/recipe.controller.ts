@@ -8,16 +8,20 @@ import {
   Post,
   Query,
   UsePipes,
+  UseGuards,
+  Request,
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
 import { RecipeService } from './recipe.service';
+import { AuthGuard } from 'src/user/guard/auth.guard';
 import { CreateRecipeDto } from './dto/createRecipe.dto';
 import { LoggerInterceptor } from 'src/user/logger/logger.interceptor';
 import { ResponseInterceptor } from 'src/user/interceptors/response/response.interceptor';
 
 @Controller('/recipes')
 @UseInterceptors(LoggerInterceptor)
+@UseGuards(AuthGuard)
 // @UseInterceptors(ResponseInterceptor)
 export class RecipeController {
   constructor(private recipeService: RecipeService) {}
@@ -28,14 +32,20 @@ export class RecipeController {
     return this.recipeService.getRecipes();
   }
 
+  @Get('/user')
+  getUserRecipes(@Request() req) {
+    const userId = req.user.sub;
+    return this.recipeService.getUserRecipes(userId);
+  }
+
   @Get('/:id')
   getRecipe(@Param('id', ParseIntPipe) id: number) {
     return this.recipeService.getRecipe(id);
   }
 
-  @Get('/user/:id')
-  getUserRecipes(@Param('id', ParseIntPipe) id: number) {
-    return this.recipeService.getUserRecipes(id);
+  @Get('/:id/steps')
+  getRecipeSteps(@Param('id', ParseIntPipe) id: number) {
+    return this.recipeService.getRecipeSteps(id);
   }
 
   @Post()
